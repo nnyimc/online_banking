@@ -24,11 +24,13 @@ public class AccountCommandApi {
     @PostMapping("/add")
     public CompletableFuture<String> add(@RequestBody AddAccountRequestDTO createAccountRequestDTO) {
         LOGGER.info("Initial balance set to: " + createAccountRequestDTO.getInitialBalance().toString());
+        String id = UUID.randomUUID().toString();
         CompletableFuture<String> completableResponse = commandGateway.send(new CreateAccountCommand(
-                UUID.randomUUID().toString(),
+                id,
                 createAccountRequestDTO.getInitialBalance(),
                 createAccountRequestDTO.getCurrency()
         ));
+        LOGGER.info("Creation of account: " + id + " confirmed!");
         return completableResponse;
     }
 
